@@ -16,6 +16,8 @@ Site de pré-venda do GTA VI com páginas de checkout para PlayStation e Xbox, h
 | `checkout.html` | Checkout GTA VI (estilo PlayStation) com formulário PIX |
 | `checkout-ps.html` | Checkout PlayStation (alternativo) |
 | `checkout-xbox.html` | Checkout Xbox Store (PDP real) com formulário PIX |
+| `checkout-ultimate.html` | Checkout GTA VI: Ultimate Edition (R$ 549,90) com formulário PIX |
+| `checkout-xbox-standard.html` | Checkout Xbox GTA VI Standard (R$ 449,90) estilo Xbox Store |
 | `xbox-store.html` | Página da loja Xbox |
 | `xbox.com/` | Assets da Xbox Store (JS, CSS, imagens) |
 | `playstation.com/` | Assets da PlayStation Store |

