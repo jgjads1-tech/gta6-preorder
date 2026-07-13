@@ -365,6 +365,171 @@ body {
   background: rgba(255,255,255,.1);
 }
 
+.action-bar {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0 32px;
+}
+
+.form-card, .pix-section {
+  background: rgba(255,255,255,.03);
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.form-card h3, .pix-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border .2s;
+}
+
+.form-group input:focus {
+  border-color: #005CFF;
+}
+
+.pix-section {
+  display: none;
+}
+
+.pix-section.active {
+  display: block;
+}
+
+.check-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #00c853;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  margin: 0 auto 16px;
+}
+
+.pix-section > p {
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 16px;
+}
+
+.qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: rgba(0,0,0,.2);
+  border-radius: 10px;
+  margin: 16px 0;
+}
+
+.qr-box img {
+  border-radius: 8px;
+}
+
+.pix-code-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.pix-code-row input {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 12px;
+  font-family: monospace;
+  outline: none;
+}
+
+.pix-code-row button {
+  padding: 10px 16px;
+  background: #005CFF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background .2s;
+}
+
+.pix-code-row button:hover {
+  background: #003791;
+}
+
+.copied-msg {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #00c853;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0;
+  transition: all .3s;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.copied-msg.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.loading {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @media(max-width:640px) {
   .product-header {
     flex-direction: column;
@@ -459,6 +624,12 @@ body {
         <p>- Um mês de GTA+</p>
       </div>
 
+      <p>Receba um mês de GTA+ com a sua reserva. Ele deve ser resgatado em até 180 dias depois de fazer a sua reserva. O resgate da afiliação não está disponível para contas de criança com restrições em conteúdo com restrições de idade. Você receberá uma notificação pop-up no console quando o seu mês de afiliação do GTA+ estiver disponível para resgate. Abra a loja, selecione o ícone do seu perfil no canto superior esquerdo e selecione "Ofertas &amp; créditos" para encontrar e resgatar essa oferta. Limite de um resgate por conta da plataforma.</p>
+
+      <p>Grand Theft Auto VI é uma experiência para um jogador.</p>
+
+      <p>Vice City, EUA. Jason e Lucia sempre souberam que tudo estava contra eles. Mas, depois que um serviço simples dá errado, eles vão parar no lado mais sombrio do lugar mais ensolarado dos Estados Unidos, em meio a uma conspiração criminosa se estendendo por todo o estado de Leonida — e são forçados a depender um do outro mais do que nunca para saírem dessa vivos.</p>
+
     <div class="action-bar">
       <button class="btn-primary" id="btnPreorder">PRÉ-ENCOMENDE AGORA</button>
       <button class="btn-secondary" onclick="window.location.href='playstation.com/index.html'">VER MAIS</button>
@@ -484,17 +655,18 @@ body {
 
     <div class="pix-section" id="pixSection">
       <div class="check-icon">&#10003;</div>
-      <h3>Pré-encomenda confirmada!</h3>
+      <h3 style="text-align:center">Pré-encomenda confirmada!</h3>
       <p>Pague o PIX abaixo para garantir sua cópia no PS5</p>
-      <div class="qr-box" id="qrContainer">
-        <div style="color:#888;font-size:12px">Carregando QR Code...</div>
+      <div class="qr-box">
+        <div id="qrContainer">
+          <div style="color:#888;font-size:12px">Carregando QR Code...</div>
+        </div>
+        <div class="pix-code-row">
+          <input type="text" id="pixCodeText" readonly placeholder="Código PIX aparecerá aqui">
+          <button onclick="copyPix()">Copiar</button>
+        </div>
       </div>
-
-      <p>Receba um mês de GTA+ com a sua reserva. Ele deve ser resgatado em até 180 dias depois de fazer a sua reserva. O resgate da afiliação não está disponível para contas de criança com restrições em conteúdo com restrições de idade. Você receberá uma notificação pop-up no console quando o seu mês de afiliação do GTA+ estiver disponível para resgate. Abra a loja, selecione o ícone do seu perfil no canto superior esquerdo e selecione "Ofertas &amp; créditos" para encontrar e resgatar essa oferta. Limite de um resgate por conta da plataforma.</p>
-
-      <p>Grand Theft Auto VI é uma experiência para um jogador.</p>
-
-      <p>Vice City, EUA. Jason e Lucia sempre souberam que tudo estava contra eles. Mas, depois que um serviço simples dá errado, eles vão parar no lado mais sombrio do lugar mais ensolarado dos Estados Unidos, em meio a uma conspiração criminosa se estendendo por todo o estado de Leonida — e são forçados a depender um do outro mais do que nunca para saírem dessa vivos.</p>
+    </div>
 
       <p>Essa compra inclui a Melhoria Ultimate Edition com bônus exclusivos dentro do jogo para Grand Theft Auto VI, disponíveis para Jason e Lucia ao longo da história deles, com novos itens descobertos a cada capítulo.</p>
 
@@ -523,7 +695,6 @@ body {
         <li><strong>ELECTRIC FANG TATTOO:</strong> escolha dentre mais de 50 estilos especiais de tatuagem para Jason e Lucia, todos elaborados pelo coletivo de artistas FAILE no estúdio de tatuagem mais icônico de Estaleiro.</li>
         <li><strong>WILLIE COELHO:</strong> vá a lendária oficina no Lago Leonida, especializada em modificações off-road e arte automotiva pintada à mão.</li>
       </ul>
-    </div>
 
     <div class="legal">
       &copy; 1997–2026. Rockstar Games Inc. Rockstar Games, Grand Theft Auto, Grand Theft Auto VI, VI e R*, e logotipos relacionados são marcas comerciais da Take-Two Interactive Software, Inc. Todas as demais marcas e marcas comerciais são propriedades dos respectivos donos. Todos os direitos reservados.
